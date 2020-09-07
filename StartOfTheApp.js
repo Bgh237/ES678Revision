@@ -216,3 +216,125 @@ var unnecessary_weekly_shop = [];
 if (false) {
   console.log("This is a falsey if statement and will not show in the page!");
 }
+
+//objects 1
+{
+  let budgets = { food_budget: 100, luxury_budget: 80, sports_budget: 40 };
+  const { luxury_budget, sports_budget, food_budget } = budgets;
+
+  console.log("Weekly food budget is: " + food_budget + "€");
+  console.log("Weekly sport budget is: " + sports_budget + "€");
+  console.log("Weekly luxury budget is: " + budgets.luxury_budget + "€");
+
+  // checking if the const name had to be the same as the name in the object
+  let qwerty = { asdfg: 100, zxcvb: 200, poiuy: 300 };
+  const { abc, def, ghi } = qwerty;
+
+  //returns undefined
+  console.log("ghi: " + ghi);
+}
+
+//functions1
+
+function budget_calc(food, luxury, sports) {
+  "use strict";
+  var monthly_total = (food + luxury + sports) * 4;
+  return monthly_total;
+}
+
+var monthly_budget_calc = function (food, luxury, sports) {
+  "use strict";
+  var monthly_total = (food + luxury + sports) * 4;
+  return monthly_total;
+};
+
+console.log("Monthly budget is " + budget_calc(100, 200, 300) + "€");
+console.log("Monthly budget is " + monthly_budget_calc(100, 200, 300) + "€");
+
+//Playing with functions within a function...funception
+var savings = function (income, expenditure) {
+  "use strict";
+  if (income > expenditure) {
+    return function (current_savings) {
+      console.log(
+        "You have increased your savings to " +
+          (income - expenditure + current_savings) +
+          "€"
+      );
+    };
+  } else {
+    return function (current_savings) {
+      console.log(
+        "Your savings are now only " +
+          (income - expenditure + current_savings) +
+          "€"
+      );
+    };
+  }
+};
+
+savings(2500, 1700)(200);
+var savings1 = savings(1500, 1700);
+
+savings1(500);
+
+//IIFE
+(function (bills) {
+  "use strict";
+  console.log("You have a total of " + bills + "€ worth of bills this month!");
+})(1200);
+
+var household_income = function (income1, income2) {
+  "use strict";
+
+  var total_income;
+  income2 = Number(income2);
+
+  if (Number.isNaN(income2)) {
+    total_income = income1;
+  } else {
+    total_income = income1 + income2;
+  }
+  return total_income;
+};
+
+console.log("Total household income is " + household_income(1700, 2500) + "€");
+console.log("Total household income is " + household_income(1700) + "€");
+
+var household_income1 = function (income1, income2) {
+  "use strict";
+
+  var total_income;
+  income1 = Number(income1);
+
+  if (Number.isNaN(income1)) {
+    total_income = income2;
+  } else {
+    total_income = income1 + income2;
+  }
+  return total_income;
+};
+//true converts to 1 so following returns 1901. Tested false also but as false would convert to 0 it doesnt matter
+console.log("Total household income is " + household_income1(true, 1900) + "€");
+
+//string invokes the NaN if statement as does null
+console.log(
+  "Total household income is " + household_income1("steve", 1900) + "€"
+);
+
+//Using a function to take another function as a parameter as call that function within itself
+var billsframework = function (func) {
+  "use strict";
+  func(2, 20);
+};
+
+//This is the function to be called by the previous function
+//The _ is used as a placeholder
+var bills = function (_, amount) {
+  "use strict";
+  console.log(
+    `Weekly bills of ${amount}€ would be a monthly cost of ${amount * 4}€`
+  );
+};
+
+billsframework(bills);
