@@ -338,3 +338,90 @@ var bills = function (_, amount) {
 };
 
 billsframework(bills);
+
+//functions2
+let overbudget = () => {
+  console.log("You are over budget!");
+};
+
+let overbudget1 = (name) => {
+  console.log(`${name}, you are over budget!`);
+};
+
+let overbudget2 = (name, amount) => {
+  console.log(`${name}, you are over budget by ${amount}€`);
+};
+
+overbudget();
+overbudget1("Dan");
+overbudget2("Dan", 300);
+
+var yearly_costs = ((monthly_costs) => {
+  return monthly_costs * 12;
+})(total_monthly_costs);
+
+console.log(`Total yearly costs are ${yearly_costs}€`);
+
+const old_bills = ["Electric", "Gas", "Bar tab", "Sofa"];
+
+const new_bills = old_bills.filter((_, index) => index % 2 == 0);
+console.dir(new_bills);
+
+old_bills.forEach((bill) => console.log(`- ${bill}`));
+
+const outstanding_bills = [
+  { name: "Electric", amount: 200.0 },
+  { name: "Gas", amount: 50.0 },
+  { name: "Bar tab", amount: 150.0 },
+  { name: "Sofa", amount: 50.0 },
+];
+
+var total_outstanding = 0;
+outstanding_bills.forEach((bill) => (total_outstanding += bill.amount));
+
+console.log(`The total outstanding bills is ${total_outstanding}€`);
+
+const urgent_bills = outstanding_bills.filter((bill) => bill.amount >= 100.0);
+console.dir(outstanding_bills);
+console.dir(urgent_bills);
+
+//functions3
+
+var student_support = function (maintenance, housing = 0) {
+  var grant_total = maintenance + housing;
+  return grant_total;
+};
+
+//Should return 1000 - Checked and it does
+console.log(`Both = ${student_support(300, 700)}`);
+//Should return 300 as default value will be used- Checked and it does
+console.log(`One = ${student_support(300)}`);
+//Should return 301 as true is converted to one - - Checked and it does
+console.log(`true = ${student_support(300, true)}`);
+//Should return 300 as false is converted to zero - - Checked and it does
+console.log(`false = ${student_support(300, false)}`);
+//Should return 300 as default value will take undefined place - - Checked and it does
+console.log(`undefined = ${student_support(300, undefined)}`);
+//Should return 300 as default value will take null place - - Checked and it does
+console.log(`null = ${student_support(300, null)}`);
+
+function logMapElements(value, key, map) {
+  console.log(`map.get('${key}') = ${value}`);
+}
+new Map([
+  ["foo", 3],
+  ["bar", {}],
+  ["baz", undefined],
+]).forEach(logMapElements);
+
+function logSetElements(value1, value2, set) {
+  console.log("s[" + value1 + "] = " + value2);
+}
+
+new Set(["foo", "bar", undefined]).forEach(logSetElements);
+
+const weekly_food_prices = [1.5, 2.99, 1.0, 6.0];
+
+const monthly_food_prices = weekly_food_prices.map((price) => price * 4);
+
+console.log(monthly_food_prices);
