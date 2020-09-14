@@ -11,24 +11,30 @@
 // e.g. class Bill could extend class Cost (with e.g. dueDate and isPaid)
 
 // daily, weekly, monthly, yearly
-const timeSpan = [
+//Naming convention for const is All capital letters
+const TIME_SPAN = [
   { span: "Daily", days: 1 },
   { span: "Weekly", days: 7 },
   { span: "Fortnightly", days: 14 },
   { span: "Monthly", days: 30.45 },
 ];
 
+//Have already written all the other consts before realising the convention so will
+//take to long to correct everything else with the references etc.
 const costs = [
-  { name: "Rent", amount: 960.0, span: timeSpan[3] },
-  { name: "Food", amount: 70.0, span: timeSpan[1] },
-  { name: "Gym", amount: 40.0, span: timeSpan[3] },
-  { name: "Haircut", amount: 32.0, span: timeSpan[3] },
+  { name: "Rent", amount: 960.0, span: TIME_SPAN[3] },
+  { name: "Food", amount: 70.0, span: TIME_SPAN[1] },
+  { name: "Gym", amount: 40.0, span: TIME_SPAN[3] },
+  { name: "Haircut", amount: 32.0, span: TIME_SPAN[3] },
 ];
 
 const income = [
-  { name: "Wages", amount: 1700.0, span: timeSpan[3] },
-  { name: "Student Grant", amount: 300.0, span: timeSpan[3] },
+  { name: "Wages", amount: 1700.0, span: TIME_SPAN[3] },
+  { name: "Student Grant", amount: 300.0, span: TIME_SPAN[3] },
 ];
+
+//const must be initialised. Following will throw an error
+//const FOO
 
 // Then do whatever reports / analysis or so, with all the costs
 var total_monthly_income = 0;
@@ -47,10 +53,12 @@ for (i = 0; i < income.length; i++) {
   }
 }
 
+//Example of template literal
 console.log(`Total monthly income is ${total_monthly_income}€`);
 var potential_savings;
 
 function remaining_budget(income, costs) {
+  //let is a block scope variable
   let remaining_money = 0;
 
   remaining_money = income - costs;
@@ -74,6 +82,36 @@ function remaining_budget(income, costs) {
 
   potential_savings = remaining_money * 12;
 }
+
+//To show let is block scope. the following function will provide different amounts
+//due to the let being block scope
+function weekly_budget() {
+  let weekly_bud = 300;
+  {
+    let weekly_bud = 100;
+    console.log(`This weekly budget is ${weekly_bud}€`);
+  }
+  console.log(`This weekly budget is ${weekly_bud}€`);
+}
+
+weekly_budget();
+
+//To show that let is block scope. If we call it in global with this. it will return undefined
+let beer_money = 200;
+var shots_money = 100;
+
+console.log(this.beer_money);
+console.log(this.shots_money);
+
+//if we call it just using the variable name it will print
+console.log(beer_money);
+
+/*If we call a let before it is defined it will throw an error. I have commented out 
+//code below but if uncommented this throws a ReferenceError. Temporal dead zone
+console.log(petrol_money);
+
+let petrol_money = 50;*/
+
 var total_monthly_costs = 0;
 
 function cost_calc(costs) {
@@ -119,6 +157,37 @@ function finances(income, costs) {
   return money;
 }
 
+//Example of a simple normal function written as an arrow function
+function monthly_weekly_converter(weekly_amount) {
+  return weekly_amount * 4;
+}
+//the above function could be written as follows as an arrow function
+let monthly_weekly_conv = (weekly_amount) => weekly_amount * 4;
+
+//Map
+const weekly_bill_amounts = [20, 50, 30, 35];
+
+const monthly_weekly_map = weekly_bill_amounts.map((amount) => amount * 4);
+
+console.log(weekly_bill_amounts);
+console.log(monthly_weekly_map);
+
+//Also an example of trailing commas at the end
+let meal_planner = [
+  { meal: "Salmon & Mash", price: 12.5 },
+  { meal: "Pizza", price: 10.5 },
+  { meal: "Spaghetti Bolognaise", price: 8 },
+];
+
+let meal_planner_map = meal_planner.map((obj) => {
+  let newObj = {};
+  newObj[obj.meal] = obj.price;
+  return newObj;
+});
+
+console.dir(meal_planner);
+console.dir(meal_planner_map);
+
 const overdraft = -300;
 
 let bank_balance = 0;
@@ -161,6 +230,7 @@ function balance_checker(account) {
 }
 balance_checker(account);
 
+//Const is permanent but we can change the value as follows
 account.balance = -100;
 
 balance_checker(account);
@@ -168,6 +238,8 @@ balance_checker(account);
 account.overdraft = -50;
 
 balance_checker(account);
+
+//If const was an array we would change it by account.push(value)
 
 var necessary_weekly_shop = {};
 var unnecessary_weekly_shop = [];
@@ -190,6 +262,7 @@ var unnecessary_weekly_shop = [];
   console.log("Cost of essential items(€): ");
   console.dir(essentials_costs);
 
+  //Examples of spread syntax ...
   let shopping_list = { ...essentials, f3, f4 };
 
   console.log("Shopping list: ");
@@ -362,8 +435,10 @@ var yearly_costs = ((monthly_costs) => {
 
 console.log(`Total yearly costs are ${yearly_costs}€`);
 
+//Using the filter feature then iterating through and printing using forEach
 const old_bills = ["Electric", "Gas", "Bar tab", "Sofa"];
 
+//Using _ to define that the first paramter is not being used and is skipped
 const new_bills = old_bills.filter((_, index) => index % 2 == 0);
 console.dir(new_bills);
 
@@ -387,6 +462,7 @@ console.dir(urgent_bills);
 
 //functions3
 
+//default function value for housing
 var student_support = function (maintenance, housing = 0) {
   var grant_total = maintenance + housing;
   return grant_total;
@@ -405,6 +481,7 @@ console.log(`undefined = ${student_support(300, undefined)}`);
 //Should return 300 as default value will take null place - - Checked and it does
 console.log(`null = ${student_support(300, null)}`);
 
+//Examples of forEach for map, set and array
 function logMapElements(value, key, map) {
   console.log(`map.get('${key}') = ${value}`);
 }
@@ -425,3 +502,206 @@ const weekly_food_prices = [1.5, 2.99, 1.0, 6.0];
 const monthly_food_prices = weekly_food_prices.map((price) => price * 4);
 
 console.log(monthly_food_prices);
+
+//we can also convert a for loop to forEach as follows
+const fortnightly_food_prices = [];
+for (let i = 0; i < weekly_food_prices.length; i++) {
+  fortnightly_food_prices.push(weekly_food_prices[i] * 2);
+}
+
+const fortnightly_food_prices1 = [];
+weekly_food_prices.forEach((price) => fortnightly_food_prices1.push(price * 2));
+
+console.log(fortnightly_food_prices);
+console.log(fortnightly_food_prices1);
+
+//Creating a class and then extending it
+class budget {
+  constructor() {
+    this.budget = 200;
+  }
+}
+
+console.log(new budget().budget);
+// expected output: 200
+
+class savings2 extends budget {
+  constructor() {
+    super();
+    this.saving = this.budget * 0.2;
+  }
+}
+
+console.log(new savings2().saving);
+// expected output: 40
+
+//spead syntax with 'new'
+
+const date_info = [2020, 10, 15];
+
+const bill_date = new Date(...date_info);
+
+console.log(bill_date);
+
+//Destructuring the Array
+
+const [year, month, day] = date_info;
+console.log(`The bill is due on ${day}.${month + 1}.${year}`);
+
+const copy_date_info = [...date_info, 56, 89, 75];
+const [year1, month1, day1, ...random_numbers] = copy_date_info;
+
+console.log(year1);
+console.log(month1);
+console.log(day1);
+console.log(random_numbers);
+
+//Computed property names
+
+let c = 0;
+let bill_number = {
+  ["Bill" + ++c]: 500,
+  ["Bill" + ++c]: 200,
+  ["Bill" + ++c]: 100,
+};
+
+console.log(bill_number.Bill1);
+console.log(bill_number.Bill2);
+console.log(bill_number.Bill3);
+
+let saving_acct1 = 200,
+  saving_acct2 = 5000,
+  saving_acct3 = "You dont have another saving account",
+  saving_acct4 = {};
+
+let saving_accounts = {
+  saving_acct1,
+  saving_acct2,
+  saving_acct3,
+  saving_acct4,
+};
+
+console.log(`Saving account 1 has ${saving_accounts.saving_acct1}€`);
+console.log(`Saving account 2 has ${saving_accounts.saving_acct2}€`);
+
+//The following would not work in JSON
+var myObj = {
+  name: "John",
+  age: 31,
+  [saving_acct1]: { saving_acct1, saving_acct2 },
+};
+var myJSON = JSON.stringify(myObj);
+
+console.log(myJSON);
+
+//If an object has a function we can now use shorthand
+const obj1 = {
+  ex_func() {
+    console.log("Function short hand example 1");
+  },
+  ex_func1() {
+    console.log("Function short hand example 2");
+  },
+};
+console.log(obj1.ex_func);
+
+//The followinng is using the new notation to define a generator method with *
+const num_bills = {
+  *bills() {
+    let number_bills = 0;
+    while (true) {
+      yield number_bills++;
+    }
+  },
+};
+
+const no_bills = num_bills.bills();
+
+console.log(`You have ${no_bills.next().value} bills to pay`);
+console.log(`You have ${no_bills.next().value} bills to pay`);
+
+//Can also do async methods short hand too.
+const new_num_bills = {
+  async *obj_func() {
+    let number_bills = 0;
+    while (true) {
+      yield number_bills++;
+    }
+  },
+};
+
+//Testing example from sheet
+var a = JSON.parse('{"123":"Yeah"}');
+
+//console.log(a.123); // Error, unexpected number
+//console.log(a."123"); // Error, unexpected String
+console.log(a["123"]); // ok, prints: Yeah
+console.log(a[123]); // ok, prints: Yeah
+
+//Falsy values example from Juhani's example. Using it to debug and see how it works
+var array = [
+  // falsy values:
+  false,
+  null,
+  undefined,
+  0,
+  NaN,
+  "",
+  "",
+  ``,
+  document.all,
+  "true",
+  "false",
+  true,
+  1,
+  "4",
+  "2",
+  " 5 ",
+  5,
+  "6",
+  "ö",
+  /[\u0400-\u04FF]+/g,
+];
+
+for (let i = 0; i < array.length; i++) {
+  let inputText = array[i];
+  let number = Number(inputText);
+
+  if (
+    (!inputText && inputText !== 0) ||
+    typeof array[i] === "boolean" ||
+    (typeof inputText === "string" && inputText.trim().length === 0) ||
+    Number.isNaN(number) ||
+    number < 0 ||
+    number > 5
+  ) {
+    // If the 'falsy' version
+    if (typeof array[i] === "string") {
+      console.log(
+        "problem: >'" + inputText + "'< with number conversion into: " + number
+      );
+    } else {
+      console.log(
+        "problem: >" + inputText + "< with number conversion into: " + number
+      );
+    }
+  }
+  if (
+    inputText &&
+    typeof inputText === "string" &&
+    inputText.trim().length !== 0 &&
+    !Number.isNaN(number) &&
+    number >= 0 &&
+    number <= 5
+  ) {
+    if (typeof array[i] === "string") {
+      console.log(
+        "correct: *'" + inputText + "'* with number conversion into: " + number
+      );
+    } else {
+      console.log(
+        "correct: *" + inputText + "* with number conversion into: " + number
+      );
+    }
+  }
+}
